@@ -29,6 +29,9 @@ public class NAimStateManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
         vCam = GetComponentInChildren<CinemachineVirtualCamera>();
         hipFov = vCam.m_Lens.FieldOfView;
         anim = GetComponent<Animator>();
