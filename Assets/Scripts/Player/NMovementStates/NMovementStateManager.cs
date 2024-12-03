@@ -19,7 +19,7 @@ public class NMovementStateManager : MonoBehaviour
     [SerializeField] float gravity = -9.81f;
     Vector3 velocity;
 
-    NMovementBaseState currentState;
+    public NMovementBaseState currentState;
 
     public NIdleState idle = new NIdleState();
     public NWalkState walk = new NWalkState();

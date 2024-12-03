@@ -5,7 +5,7 @@ using Cinemachine;
 
 public class NAimStateManager : MonoBehaviour
 {
-    NAimBaseState currentState;
+    public NAimBaseState currentState;
     public NHipFireState Hip = new NHipFireState();
     public NAimState Aim = new NAimState();
 

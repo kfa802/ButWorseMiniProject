@@ -19,15 +19,28 @@ public class NWeaponManager : MonoBehaviour
     [SerializeField] AudioClip gunShot;
     AudioSource audioSource;
     NWeaponAmmo ammo;
+    NWeaponBloom bloom;
     NActionStateManager actions;
+    NWeaponRecoil recoil;
+
+    Light muzzleFlashLight;
+    ParticleSystem muzzleFlashParticles;
+    float lightIntensity;
+    [SerializeField] float lightReturnSpeed = 20;
 
     // Start is called before the first frame update
     void Start()
     {
+        recoil = GetComponent<NWeaponRecoil>();
         audioSource = GetComponent<AudioSource>();
         aim = GetComponentInParent<NAimStateManager>();
         ammo = GetComponent<NWeaponAmmo>();
+        bloom = GetComponent<NWeaponBloom>();
         actions = GetComponentInParent<NActionStateManager>();
+        muzzleFlashLight = GetComponentInChildren<Light>();
+        lightIntensity = muzzleFlashLight.intensity;
+        muzzleFlashLight.intensity = 0;
+        muzzleFlashParticles = GetComponentInChildren<ParticleSystem>();
         fireRateTimer = fireRate;
     }
 
@@ -35,7 +48,7 @@ public class NWeaponManager : MonoBehaviour
     void Update()
     {
         if(ShouldfFire()) Fire();
-        Debug.Log(ammo.currentAmmo);
+        muzzleFlashLight.intensity = Mathf.Lerp(muzzleFlashLight.intensity, 0, lightReturnSpeed * Time.deltaTime);
         
     }
 
@@ -54,7 +67,10 @@ public class NWeaponManager : MonoBehaviour
     {
         fireRateTimer = 0;
         barrelPos.LookAt(aim.aimPos);
+        barrelPos.localEulerAngles = bloom.BloomAngle(barrelPos);
         audioSource.PlayOneShot(gunShot);
+        recoil.TriggerRecoil();
+        TriggerMuzzleFlash();
         ammo.currentAmmo--;
         for(int i = 0; i < bulletsPerShot; i++)
         {
@@ -63,6 +79,12 @@ public class NWeaponManager : MonoBehaviour
             rb.AddForce(barrelPos.forward * bulletVelocity, ForceMode.Impulse);
         }
         
+    }
+
+    void TriggerMuzzleFlash()
+    {
+        muzzleFlashParticles.Play();
+        muzzleFlashLight.intensity = lightIntensity;
     }
 
 
