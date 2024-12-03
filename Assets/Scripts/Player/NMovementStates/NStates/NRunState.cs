@@ -17,6 +17,11 @@ public class NRunState : NMovementBaseState
 
         if(movement.vInput <0) movement.currentMoveSpeed = movement.runBackSpeed;
         else movement.currentMoveSpeed = movement.runSpeed;
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            movement.previousState = this;
+            ExitState(movement,movement.jump);
+        }
     }
 
     void ExitState(NMovementStateManager movement, NMovementBaseState state)

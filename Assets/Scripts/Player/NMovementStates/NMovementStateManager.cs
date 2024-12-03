@@ -17,14 +17,18 @@ public class NMovementStateManager : MonoBehaviour
     Vector3 spherePos;
 
     [SerializeField] float gravity = -9.81f;
+    [SerializeField] float jumpForce = 10;
+    [HideInInspector] public bool jumped;
     Vector3 velocity;
 
+    public NMovementBaseState previousState;
     public NMovementBaseState currentState;
 
     public NIdleState idle = new NIdleState();
     public NWalkState walk = new NWalkState();
     public NRunState run = new NRunState();
     public NCrouchState crouch = new NCrouchState();
+    public NJumpState jump = new NJumpState();
 
     [HideInInspector] public Animator anim;
 
@@ -78,6 +82,10 @@ public class NMovementStateManager : MonoBehaviour
 
         controller.Move(velocity * Time.deltaTime);
     }
+    public void JumpForce() => velocity.y += jumpForce;
+
+    public void Jumped() => jumped = true;
+
     /*private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;

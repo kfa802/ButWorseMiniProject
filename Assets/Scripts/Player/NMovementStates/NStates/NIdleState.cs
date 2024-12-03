@@ -17,6 +17,11 @@ public class NIdleState : NMovementBaseState
             else movement.SwitchState(movement.walk);
         }
         if(Input.GetKeyDown(KeyCode.C))movement.SwitchState(movement.crouch);
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            movement.previousState = this;
+            movement.SwitchState(movement.jump);
+        }
     
     }
 }
