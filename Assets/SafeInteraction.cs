@@ -20,10 +20,7 @@ public class SafeInteraction : MonoBehaviour
 
         // Ensure the ammo collected message is hidden at the start
         if (ammoCollectedText != null)
-        {
             ammoCollectedText.gameObject.SetActive(false);
-            ammoCollectedText.transform.position = new Vector3(5000f, 5000f, 0f); // Move it off-screen initially
-        }
     }
 
     void OnTriggerEnter(Collider other)
@@ -92,19 +89,16 @@ public class SafeInteraction : MonoBehaviour
             ammoCollectedText.text = $"+{ammoReward} Ammo"; // Set the message text
             ammoCollectedText.gameObject.SetActive(true); // Show the text
 
-            // Start coroutine to move the text off-screen after 2 seconds
-            StartCoroutine(MoveTextOffScreen());
+            // Start coroutine to hide the message after 2 seconds
+            StartCoroutine(HideAmmoCollectedMessage());
         }
     }
 
-    // Coroutine to move the ammo collected message off-screen after a delay
-    IEnumerator MoveTextOffScreen()
+    // Coroutine to hide the ammo collected message after a delay
+    IEnumerator HideAmmoCollectedMessage()
     {
         yield return new WaitForSeconds(2f); // Wait for 2 seconds
         if (ammoCollectedText != null)
-        {
-            // Move the text far off-screen (adjust position as needed)
-            ammoCollectedText.transform.position = new Vector3(5000f, 5000f, 0f); // Move it off-screen
-        }
+            ammoCollectedText.gameObject.SetActive(false); // Disable the message
     }
 }

@@ -5,22 +5,23 @@ using UnityEngine;
 public class NBullet : MonoBehaviour
 {
     [SerializeField] float timeToDestroy;
-    float timer;
+    [HideInInspector] public NWeaponManager weapon;
+ 
     // Start is called before the first frame update
     void Start()
     {
+        Destroy(this.gameObject, timeToDestroy);
         
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        timer += Time.deltaTime;
-        if(timer >= timeToDestroy) Destroy(this.gameObject);
-        
-    }
     private void OnCollisionEnter(Collision collision)
     {
+        if(collision.gameObject.GetComponentInParent<EnemyHealth>())
+        {
+            EnemyHealth enemyHealth = collision.gameObject.GetComponentInParent<EnemyHealth>();
+            enemyHealth.TakeDamage(weapon.damage);
+        }
         Destroy(this.gameObject);
     }
 }

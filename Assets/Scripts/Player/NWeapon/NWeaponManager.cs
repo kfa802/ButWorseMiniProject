@@ -14,6 +14,7 @@ public class NWeaponManager : MonoBehaviour
     [SerializeField] Transform barrelPos;
     [SerializeField] float bulletVelocity;
     [SerializeField] int bulletsPerShot;
+    public float damage = 20;
     NAimStateManager aim;
 
     [SerializeField] AudioClip gunShot;
@@ -75,6 +76,10 @@ public class NWeaponManager : MonoBehaviour
         for(int i = 0; i < bulletsPerShot; i++)
         {
             GameObject currentBullet = Instantiate(bullet, barrelPos.position, barrelPos.rotation);
+
+            NBullet bulletScript = currentBullet.GetComponent<NBullet>();
+            bulletScript.weapon = this;
+
             Rigidbody rb = currentBullet.GetComponent<Rigidbody>();
             rb.AddForce(barrelPos.forward * bulletVelocity, ForceMode.Impulse);
         }
