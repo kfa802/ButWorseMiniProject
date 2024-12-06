@@ -4,19 +4,28 @@ using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
 {
-    [SerializeField] float health;
+    public float health;
+    RagdollManager ragdollManager;
+    [HideInInspector] public bool isDead;
+
+    private void Start()
+    {
+        ragdollManager = GetComponent<RagdollManager>();
+    }
+    
     public void TakeDamage(float damage)
     {
         if(health > 0)
         {
             health -= damage;
             if (health <= 0) EnemyDeath();
-            Debug.Log("Hit");
+            else Debug.Log("Hit");
         }
      
     }
     void EnemyDeath()
     {
+        ragdollManager.TriggerRagdoll();
         Debug.Log("Enemy Dead");
     }
 

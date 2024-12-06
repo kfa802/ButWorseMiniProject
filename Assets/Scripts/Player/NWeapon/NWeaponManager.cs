@@ -29,6 +29,8 @@ public class NWeaponManager : MonoBehaviour
     float lightIntensity;
     [SerializeField] float lightReturnSpeed = 20;
 
+    public float enemyKickbackForce = 100;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -79,6 +81,8 @@ public class NWeaponManager : MonoBehaviour
 
             NBullet bulletScript = currentBullet.GetComponent<NBullet>();
             bulletScript.weapon = this;
+
+            bulletScript.dir = barrelPos.transform.forward;
 
             Rigidbody rb = currentBullet.GetComponent<Rigidbody>();
             rb.AddForce(barrelPos.forward * bulletVelocity, ForceMode.Impulse);
