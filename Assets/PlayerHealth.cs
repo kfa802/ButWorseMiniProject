@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
+using UnityEngine.SceneManagement; // For scene management
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -8,8 +8,8 @@ public class PlayerHealth : MonoBehaviour
     public int currentHealth;  // Current health
     public Image[] heartImages;   // Array of heart image UI elements
     public GameObject gameOverScreen; // Game over screen
-
-    private Vector3 lastCheckpointPosition; // Player's last checkpoint position
+    public Button continueButton; // Continue button
+    public Button mainMenuButton; // Main menu button
 
     void Start()
     {
@@ -20,8 +20,9 @@ public class PlayerHealth : MonoBehaviour
         // Hide Game Over screen at the start
         gameOverScreen.SetActive(false);
 
-        // Set the checkpoint to the player's initial position at the start
-        lastCheckpointPosition = transform.position;
+        // Set up button listeners
+        continueButton.onClick.AddListener(OnContinueButtonClick);
+        mainMenuButton.onClick.AddListener(OnMainMenuButtonClick);
     }
 
     public void TakeDamage(int damage)
@@ -47,28 +48,23 @@ public class PlayerHealth : MonoBehaviour
     void Die()
     {
         gameOverScreen.SetActive(true); // Show Game Over screen
-        StartCoroutine(ReloadSceneAfterDelay(0.8f)); // Reload scene after delay
+        Time.timeScale = 0; // Pause the game
+        Cursor.visible = true; // Make the cursor visible
+        Cursor.lockState = CursorLockMode.None; // Unlock the cursor
     }
 
-    private IEnumerator ReloadSceneAfterDelay(float delay)
+    // On Continue button click: restart the current scene
+    void OnContinueButtonClick()
     {
-        yield return new WaitForSeconds(delay);
-        RespawnAtCheckpoint();
+        Time.timeScale = 1; // Resume the game
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name); // Reload the current scene
     }
 
-    public void SetCheckpoint(Vector3 checkpointPosition)
+    // On Main Menu button click: load the main menu
+    void OnMainMenuButtonClick()
     {
-        lastCheckpointPosition = checkpointPosition; // Update checkpoint
-        Debug.Log("Checkpoint updated to: " + checkpointPosition);
-    }
-
-    void RespawnAtCheckpoint()
-    {
-        // Respawn player at the last checkpoint
-        transform.position = lastCheckpointPosition;
-        currentHealth = maxHealth; // Reset health
-        UpdateHeartSprites(); // Update the heart sprites
-        gameOverScreen.SetActive(false); // Hide Game Over screen
+        Time.timeScale = 1; // Ensure time resumes before loading the main menu
+        SceneManager.LoadScene("MainMenu"); // Load the main menu scene (make sure the scene is named correctly)
     }
 
     // Update Heart Sprites based on current health
