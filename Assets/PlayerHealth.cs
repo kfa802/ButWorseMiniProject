@@ -11,11 +11,9 @@ public class PlayerHealth : MonoBehaviour
 
     private Vector3 lastCheckpointPosition; // Player's last checkpoint position
 
-    // Screen shake and flash settings
+    // Screen shake settings
     public float shakeDuration = 0.2f; // Duration of screen shake
     public float shakeMagnitude = 0.3f; // Intensity of screen shake
-    public Renderer playerRenderer; // Renderer for the player
-    private Color originalColor; // Original color of the player
 
     void Start()
     {
@@ -25,12 +23,6 @@ public class PlayerHealth : MonoBehaviour
 
         // Hide Game Over screen at the start
         gameOverScreen.SetActive(false);
-
-        // Store the original color for flashing effect
-        if (playerRenderer != null)
-        {
-            originalColor = playerRenderer.material.color;
-        }
 
         // Set the checkpoint to the player's initial position at the start
         lastCheckpointPosition = transform.position;
@@ -43,9 +35,8 @@ public class PlayerHealth : MonoBehaviour
 
         UpdateHeartSprites(); // Update the heart sprites
 
-        // Trigger screen shake and flash effects
+        // Trigger screen shake effect
         StartCoroutine(Shake(shakeDuration, shakeMagnitude));
-        StartCoroutine(FlashRed());
 
         if (currentHealth <= 0)
         {
@@ -85,7 +76,6 @@ public class PlayerHealth : MonoBehaviour
         currentHealth = maxHealth; // Reset health
         UpdateHeartSprites(); // Update the heart sprites
         gameOverScreen.SetActive(false); // Hide Game Over screen
-
     }
 
     // Update Heart Sprites based on current health
@@ -123,19 +113,5 @@ public class PlayerHealth : MonoBehaviour
         }
 
         transform.position = originalPosition; // Reset to original position
-    }
-
-    // Flash Red Coroutine
-    private IEnumerator FlashRed()
-    {
-        if (playerRenderer != null)
-        {
-            // Flash to red
-            playerRenderer.material.color = Color.red;
-            yield return new WaitForSeconds(0.1f); // Keep red for a moment
-
-            // Restore original color
-            playerRenderer.material.color = originalColor;
-        }
     }
 }
