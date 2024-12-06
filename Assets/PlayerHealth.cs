@@ -11,10 +11,6 @@ public class PlayerHealth : MonoBehaviour
 
     private Vector3 lastCheckpointPosition; // Player's last checkpoint position
 
-    // Screen shake settings
-    public float shakeDuration = 0.2f; // Duration of screen shake
-    public float shakeMagnitude = 0.3f; // Intensity of screen shake
-
     void Start()
     {
         // Initialize health
@@ -34,9 +30,6 @@ public class PlayerHealth : MonoBehaviour
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth); // Ensure health stays within bounds
 
         UpdateHeartSprites(); // Update the heart sprites
-
-        // Trigger screen shake effect
-        StartCoroutine(Shake(shakeDuration, shakeMagnitude));
 
         if (currentHealth <= 0)
         {
@@ -93,25 +86,5 @@ public class PlayerHealth : MonoBehaviour
                 heartImages[i].enabled = false; // Hide the heart (empty)
             }
         }
-    }
-
-    // Screen Shake Coroutine
-    private IEnumerator Shake(float duration, float magnitude)
-    {
-        Vector3 originalPosition = transform.position;
-        float elapsed = 0.0f;
-
-        while (elapsed < duration)
-        {
-            float offsetX = Random.Range(-1f, 1f) * magnitude;
-            float offsetY = Random.Range(-1f, 1f) * magnitude;
-
-            transform.position = originalPosition + new Vector3(offsetX, offsetY, 0);
-
-            elapsed += Time.deltaTime;
-            yield return null; // Wait for the next frame
-        }
-
-        transform.position = originalPosition; // Reset to original position
     }
 }

@@ -285,6 +285,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeToDestroy: 10
+  weapon: {fileID: 0}
+  dir: {x: 0, y: 0, z: 0}
 --- !u!1 &4330194898617556300
 GameObject:
   m_ObjectHideFlags: 0

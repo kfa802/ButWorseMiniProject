@@ -18,6 +18,8 @@ public class NBullet : MonoBehaviour
     // Update is called once per frame
     private void OnCollisionEnter(Collision collision)
     {
+        Debug.DrawLine(transform.position, collision.contacts[0].point, Color.red, 2f);
+
         if(collision.gameObject.GetComponentInParent<EnemyHealth>())
         {
             EnemyHealth enemyHealth = collision.gameObject.GetComponentInParent<EnemyHealth>();
@@ -32,4 +34,6 @@ public class NBullet : MonoBehaviour
         }
         Destroy(this.gameObject);
     }
+
+    
 }
