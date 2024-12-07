@@ -31,7 +31,7 @@ public class EnemyHealth : MonoBehaviour
         }
     }
 
-    void EnemyDeath()
+   void EnemyDeath()
     {
         // Trigger ragdoll physics
         ragdollManager.TriggerRagdoll();
@@ -45,6 +45,9 @@ public class EnemyHealth : MonoBehaviour
         
         // Set isDead flag to true
         isDead = true;
+        
+        // Increase the kill count in KillManager
+        KillManager.IncreaseKillCount();
         
         Debug.Log("Enemy Dead");
     }

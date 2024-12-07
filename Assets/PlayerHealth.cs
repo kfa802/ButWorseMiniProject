@@ -57,6 +57,7 @@ public class PlayerHealth : MonoBehaviour
     void OnContinueButtonClick()
     {
         Time.timeScale = 1; // Resume the game
+        KillManager.ResetKillCount(); // Reset the kill count when continuing the game
         SceneManager.LoadScene(SceneManager.GetActiveScene().name); // Reload the current scene
     }
 
@@ -64,6 +65,7 @@ public class PlayerHealth : MonoBehaviour
     void OnMainMenuButtonClick()
     {
         Time.timeScale = 1; // Ensure time resumes before loading the main menu
+        KillManager.ResetKillCount(); // Reset the kill count when going to the main menu
         SceneManager.LoadScene("MainMenu"); // Load the main menu scene (make sure the scene is named correctly)
     }
 
