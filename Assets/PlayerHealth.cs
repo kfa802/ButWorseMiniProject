@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement; // For scene management
+using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -10,17 +11,21 @@ public class PlayerHealth : MonoBehaviour
     public GameObject gameOverScreen; // Game over screen
     public Button continueButton; // Continue button
     public Button mainMenuButton; // Main menu button
+    public Image bloodSplatterImage; // Blood splatter image
+    public AudioSource damageSound; // Audio source for damage sound effect
+
+    private float bloodSplatterDuration = 0.5f; // Duration the blood splatter stays visible
+    private float bloodFadeDuration = 0.5f; // Duration for the fade-out effect
 
     void Start()
     {
-        // Initialize health
         currentHealth = maxHealth;
-        UpdateHeartSprites(); // Update heart sprites at the start
-
-        // Hide Game Over screen at the start
+        UpdateHeartSprites();
         gameOverScreen.SetActive(false);
 
-        // Set up button listeners
+        if (bloodSplatterImage != null)
+            bloodSplatterImage.color = new Color(1, 1, 1, 0); // Ensure blood splatter is invisible initially
+
         continueButton.onClick.AddListener(OnContinueButtonClick);
         mainMenuButton.onClick.AddListener(OnMainMenuButtonClick);
     }
@@ -28,9 +33,15 @@ public class PlayerHealth : MonoBehaviour
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
-        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth); // Ensure health stays within bounds
+        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
 
-        UpdateHeartSprites(); // Update the heart sprites
+        if (damageSound != null)
+        {
+            damageSound.Play(); // Play the damage sound effect
+        }
+
+        ShowBloodSplatter(); // Show blood splatter on damage
+        UpdateHeartSprites();
 
         if (currentHealth <= 0)
         {
@@ -41,48 +52,67 @@ public class PlayerHealth : MonoBehaviour
     public void Heal(int amount)
     {
         currentHealth += amount;
-        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth); // Ensure health stays within bounds
-        UpdateHeartSprites(); // Update the heart sprites
+        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+        UpdateHeartSprites();
     }
 
     void Die()
     {
-        gameOverScreen.SetActive(true); // Show Game Over screen
-        Time.timeScale = 0; // Pause the game
-        Cursor.visible = true; // Make the cursor visible
-        Cursor.lockState = CursorLockMode.None; // Unlock the cursor
+        gameOverScreen.SetActive(true);
+        Time.timeScale = 0;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
     }
 
-    // On Continue button click: restart the current scene
     void OnContinueButtonClick()
     {
-        Time.timeScale = 1; // Resume the game
-        KillManager.ResetKillCount(); // Reset the kill count when continuing the game
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name); // Reload the current scene
+        Time.timeScale = 1;
+        KillManager.ResetKillCount();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    // On Main Menu button click: load the main menu
     void OnMainMenuButtonClick()
     {
-        Time.timeScale = 1; // Ensure time resumes before loading the main menu
-        KillManager.ResetKillCount(); // Reset the kill count when going to the main menu
-        SceneManager.LoadScene("MainMenu"); // Load the main menu scene (make sure the scene is named correctly)
+        Time.timeScale = 1;
+        KillManager.ResetKillCount();
+        SceneManager.LoadScene("MainMenu");
     }
 
-    // Update Heart Sprites based on current health
     private void UpdateHeartSprites()
     {
-        int fullHearts = currentHealth / (maxHealth / heartImages.Length); // Determine how many hearts are full
+        int fullHearts = currentHealth / (maxHealth / heartImages.Length);
         for (int i = 0; i < heartImages.Length; i++)
         {
-            if (i < fullHearts)
-            {
-                heartImages[i].enabled = true; // Show the heart (full)
-            }
-            else
-            {
-                heartImages[i].enabled = false; // Hide the heart (empty)
-            }
+            heartImages[i].enabled = i < fullHearts;
         }
+    }
+
+    private void ShowBloodSplatter()
+    {
+        if (bloodSplatterImage != null)
+        {
+            bloodSplatterImage.color = new Color(1, 1, 1, 1); // Make the blood splatter visible
+            StopAllCoroutines(); // Stop any ongoing fade-out coroutine
+            StartCoroutine(FadeBloodSplatter()); // Start the fade-out effect
+        }
+    }
+
+    private IEnumerator FadeBloodSplatter()
+    {
+        yield return new WaitForSeconds(bloodSplatterDuration); // Wait for the blood splatter duration
+
+        float elapsed = 0f;
+        Color initialColor = bloodSplatterImage.color;
+        Color targetColor = new Color(1, 1, 1, 0); // Fully transparent
+
+        while (elapsed < bloodFadeDuration)
+        {
+            elapsed += Time.deltaTime;
+            float t = elapsed / bloodFadeDuration;
+            bloodSplatterImage.color = Color.Lerp(initialColor, targetColor, t);
+            yield return null;
+        }
+
+        bloodSplatterImage.color = targetColor; // Ensure it's fully transparent at the end
     }
 }

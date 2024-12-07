@@ -48,7 +48,7 @@ public class NAimStateManager : MonoBehaviour
         SwitchState(Hip);   
     }
 
-    // Update is called once per frame
+    // Update is called once per frame// Update is called once per frame
     void Update()
     {
         xAxis += Input.GetAxisRaw("Mouse X") * mouseSense;
@@ -60,15 +60,19 @@ public class NAimStateManager : MonoBehaviour
         Vector2 screenCentre = new Vector2(Screen.width / 2, Screen.height / 2);
         Ray ray = Camera.main.ScreenPointToRay(screenCentre);
 
+        // Raycast to find the aim position
         if(Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, aimMask))
         {
-            aimPos.position = Vector3.Lerp(aimPos.position, hit.point, aimSmoothSpeed * Time.deltaTime);
-            //actualAimPos = hit.point;
+            // Directly update the aimPos to the hit point
+            aimPos.position = hit.point;
         }
+
         MoveCamera();
 
+        // Update current state
         currentState.UpdateState(this);
     }
+
 
     private void LateUpdate()
     {
