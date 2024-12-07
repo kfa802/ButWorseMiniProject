@@ -3,6 +3,7 @@ using UnityEngine;
 public class LightningEffect : MonoBehaviour
 {
     public Light lightningLight;  // Reference to the light used for lightning
+    public AudioSource lightningSound;  // Reference to the audio source for the sound effect
     public float minLightningDuration = 0.1f;  // Minimum duration for the lightning flash
     public float maxLightningDuration = 0.5f;  // Maximum duration for the lightning flash
     public float minTimeBetweenFlashes = 1f;  // Minimum time between lightning flashes
@@ -17,6 +18,11 @@ public class LightningEffect : MonoBehaviour
         if (lightningLight == null)
         {
             lightningLight = GetComponent<Light>();  // Try to get the light component if not set
+        }
+
+        if (lightningSound == null)
+        {
+            lightningSound = GetComponent<AudioSource>();  // Try to get the AudioSource if not set
         }
 
         // Start with the light off
@@ -51,6 +57,13 @@ public class LightningEffect : MonoBehaviour
 
                 // Turn the light on for the flash duration
                 lightningLight.enabled = true;
+
+                // Play the sound effect
+                if (lightningSound != null)
+                {
+                    lightningSound.Play();
+                }
+
                 isFlashing = true;
             }
         }
