@@ -75,7 +75,7 @@ public class PlayerHealth : MonoBehaviour
     {
         Time.timeScale = 1;
         KillManager.ResetKillCount();
-        SceneManager.LoadScene("MainMenu");
+        SceneManager.LoadScene("MainScreen");
     }
 
     private void UpdateHeartSprites()
