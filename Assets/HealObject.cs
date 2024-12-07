@@ -3,8 +3,10 @@ using UnityEngine;
 public class HealObject : MonoBehaviour
 {
     public int healAmount = 25; // Amount of health the healing object gives
+    public AudioClip healSound; // The sound to play when the herb is picked up
+    public float volume = 1.0f; // Volume for the sound effect
 
-    void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         Debug.Log("Triggered by: " + other.gameObject.name);
 
@@ -19,6 +21,8 @@ public class HealObject : MonoBehaviour
                     playerHealth.Heal(healAmount); // Heal the player
                     Debug.Log("Healed player for: " + healAmount);
 
+                    PlayHealSound(); // Play the heal sound effect
+
                     Destroy(gameObject); // Destroy the heal object after use
                 }
                 else
@@ -30,6 +34,19 @@ public class HealObject : MonoBehaviour
             {
                 Debug.Log("PlayerHealth component not found on: " + other.gameObject.name);
             }
+        }
+    }
+
+    private void PlayHealSound()
+    {
+        if (healSound != null)
+        {
+            // Play the sound at the object's position
+            AudioSource.PlayClipAtPoint(healSound, transform.position, volume);
+        }
+        else
+        {
+            Debug.LogWarning("Heal sound is not assigned.");
         }
     }
 }
