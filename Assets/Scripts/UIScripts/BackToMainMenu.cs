@@ -8,4 +8,6 @@ public class BackToMainMenu : MonoBehaviour
     {
         SceneManager.LoadScene("MainScreen"); // Assuming your Main Menu scene is named "MainMenu"
     }
+
+    // Code inspired by chatGPT and CoPilot AI but I'm also just a girl
 }

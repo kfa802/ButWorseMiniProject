@@ -63,6 +63,7 @@ public class MainMenuScript : MonoBehaviour
 
     }
 
-    // Coroutine to apply continuous glitch effect to the UI element
-  
+
+    // Code inspired by chatGPT and CoPilot AI but I'm also just a girl
+
 }

@@ -24,4 +24,6 @@ public class LightFlicker : MonoBehaviour
             directionalLight.intensity = Mathf.Lerp(directionalLight.intensity, randomIntensity, flickerSpeed * Time.deltaTime);
         }
     }
+
+    // Code inspired by chatGPT and CoPilot AI but I'm also just a girl
 }

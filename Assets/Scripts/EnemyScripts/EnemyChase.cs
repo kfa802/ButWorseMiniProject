@@ -21,4 +21,7 @@ public class EnemyChase : MonoBehaviour
             agent.SetDestination(player.position);
         }
     }
+    
+    // Code inspired by chatGPT and CoPilot AI but I'm also just a girl
+
 }

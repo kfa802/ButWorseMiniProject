@@ -30,4 +30,6 @@ public class EnemySpawner : MonoBehaviour
             enemyAI.target = playerTarget; // Set the target reference dynamically
         }
     }
+
+    // Code inspired by chatGPT and CoPilot AI but I'm also just a girl
 }

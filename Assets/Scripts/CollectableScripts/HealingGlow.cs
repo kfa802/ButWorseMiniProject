@@ -37,4 +37,6 @@ public class HealingGlow : MonoBehaviour
         // Update the emission color, maintaining the object's base texture
         glowMaterial.SetColor("_EmissionColor", glowColor * intensity);
     }
+
+    // Code inspired by chatGPT and CoPilot AI
 }

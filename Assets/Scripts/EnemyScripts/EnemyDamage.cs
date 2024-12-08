@@ -24,4 +24,7 @@ public class EnemyDamage : MonoBehaviour
             }
         }
     }
+
+    // Code inspired by chatGPT and CoPilot AI but I'm also just a girl
+
 }

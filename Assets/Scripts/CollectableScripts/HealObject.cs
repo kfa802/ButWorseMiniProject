@@ -49,4 +49,6 @@ public class HealObject : MonoBehaviour
             Debug.LogWarning("Heal sound is not assigned.");
         }
     }
+
+    // Code inspired by chatGPT and CoPilot AI
 }

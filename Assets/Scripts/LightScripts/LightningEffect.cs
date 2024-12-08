@@ -68,4 +68,6 @@ public class LightningEffect : MonoBehaviour
             }
         }
     }
+    // Code inspired by chatGPT and CoPilot AI but I'm also just a girl
+
 }

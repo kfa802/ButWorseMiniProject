@@ -126,4 +126,8 @@ public class EnemyAI : MonoBehaviour
             agent.isStopped = false;
         }
     }
+    
+
+    
+    // Code inspired by chatGPT and CoPilot AI but I'm also just a girl
 }

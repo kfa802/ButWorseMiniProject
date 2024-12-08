@@ -73,4 +73,6 @@ public class SafeInteraction : MonoBehaviour
 
         Destroy(gameObject); // Optionally destroy the safe after opening
     }
+
+    // Code inspired by chatGPT and CoPilot AI but I'm also just a girl
 }

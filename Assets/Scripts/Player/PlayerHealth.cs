@@ -115,4 +115,6 @@ public class PlayerHealth : MonoBehaviour
 
         bloodSplatterImage.color = targetColor; // Ensure it's fully transparent at the end
     }
+    
+    // Code inspired by chatGPT and CoPilot AI but I'm also just a girl
 }

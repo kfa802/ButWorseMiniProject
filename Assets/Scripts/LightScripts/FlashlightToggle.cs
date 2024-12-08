@@ -65,4 +65,7 @@ public class FlashlightToggle : MonoBehaviour
         isFlickering = false;
         flashlight.intensity = 1.0f;  // Set the flashlight to its normal intensity
     }
+
+    // Code inspired by chatGPT and CoPilot AI but I'm also just a girl
+
 }
