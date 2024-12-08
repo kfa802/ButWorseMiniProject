@@ -24,6 +24,7 @@ public class NWeaponAmmo : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R))
         {
             Reload();
+            
         }
 
         // Example: Shooting logic (replace or modify as needed)

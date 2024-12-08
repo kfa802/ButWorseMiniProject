@@ -63,8 +63,10 @@ public class NAimStateManager : MonoBehaviour
         // Raycast to find the aim position
         if(Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, aimMask))
         {
+
+            aimPos.position = Vector3.Lerp(aimPos.position, hit.point, aimSmoothSpeed * Time.deltaTime);
             // Directly update the aimPos to the hit point
-            aimPos.position = hit.point;
+            //aimPos.position = hit.point;
         }
 
         MoveCamera();
